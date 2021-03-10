@@ -1,0 +1,13 @@
+[Unit]
+Description= NIC management
+Wants=obmc-mapper.target
+After=obmc-mapper.target
+
+[Service]
+ExecStart=@bindir@/peripheral-manager
+Type=dbus
+BusName=xyz.openbmc_project.peripheral.manager
+SyslogIdentifier=peripheral-manager
+
+[Install]
+WantedBy=multi-user.target
