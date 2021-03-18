@@ -1,0 +1,11 @@
+[Unit]
+Description=Host State Monitoring and Logging
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/env ampere-state-logger
+SyslogIdentifier=ampere-state-logger
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
