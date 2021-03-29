@@ -1,0 +1,14 @@
+[Unit]
+Description=Ampere driver binder deamon
+Wants=xyz.openbmc_project.State.Host.service
+After=xyz.openbmc_project.State.Host.service
+Wants=xyz.openbmc_project.State.Chassis.service
+After=xyz.openbmc_project.State.Chassis.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/ampere-driver-binder
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
