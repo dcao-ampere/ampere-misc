@@ -49,8 +49,8 @@ static int cpld_remove(cpld_intf_t intf)
 
 static int cpld_malloc_list()
 {
-  int i, j = 0;
-  int dev_cnts = 0;
+  unsigned int i, j = 0;
+  unsigned int dev_cnts = 0;
 
   dev_cnts += ARRAY_SIZE(lattice_dev_list);
 

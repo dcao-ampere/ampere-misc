@@ -24,7 +24,7 @@ typedef struct {
   int get_device;                 /* get cpld ID code flag */
 }cpld_t;
 
-static void usage(FILE *fp, int argc, char **argv)
+static void usage(FILE *fp, char **argv)
 {
   fprintf(fp,
           "Usage: %s [options]\n\n"
@@ -65,7 +65,6 @@ static void printf_failure()
 int main(int argc, char *argv[]){
   char option;
   char in_name[100]  = "";
-  char out_name[100] = "";
   uint8_t cpld_var[4] = {0};
   char key[32]= {0};
   cpld_t cpld;
@@ -81,7 +80,7 @@ int main(int argc, char *argv[]){
   while ((option = getopt_long(argc, argv, short_options, long_options, NULL)) != (char) -1) {
       switch (option) {
       case 'h':
-          usage(stdout, argc, argv);
+          usage(stdout, argv);
           exit(EXIT_SUCCESS);
           break;
       case 'p':
@@ -89,7 +88,7 @@ int main(int argc, char *argv[]){
           strcpy(in_name, optarg);
           if (!strcmp(in_name, "")) {
               printf("No input file name!\n");
-              usage(stdout, argc, argv);
+              usage(stdout, argv);
               exit(EXIT_FAILURE);
           }
           break;
@@ -100,7 +99,7 @@ int main(int argc, char *argv[]){
           cpld.get_device = 1;
           break;
       default:
-          usage(stdout, argc, argv);
+          usage(stdout, argv);
           exit(EXIT_FAILURE);
       }
   }

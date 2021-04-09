@@ -9,6 +9,7 @@
 #define MAX_RETRY 4000
 #define LATTICE_COL_SIZE 128
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+#define UNUSED(x)         (void)(x)
 
 typedef struct
 {
@@ -198,7 +199,7 @@ LCMXO2Family_SendCFdata(CPLDInfo *dev_info)
 {
   int ret = 0;
   int CurrentAddr = 0;
-  int i;
+  unsigned int i;
   unsigned status;
 
   for (i = 0; i < dev_info->CF_Line; i++)
@@ -238,7 +239,7 @@ LCMXO2Family_SendUFMdata(CPLDInfo *dev_info)
 {
   int ret = 0;
   int CurrentAddr = 0;
-  int i;
+  unsigned int i;
   unsigned int status;
 
   for (i = 0; i < dev_info->UFM_Line; i++)
@@ -354,7 +355,7 @@ LCMXO2Family_JED_File_Parser(FILE *jed_fd, CPLDInfo *dev_info, int cf_size, int 
   unsigned int JED_CheckSum = 0;
   int copy_size;
   int current_addr=0;
-  int i;
+  unsigned int i;
   int ret = 0;
   int cf_size_used = (cf_size * LATTICE_COL_SIZE) / 8; // unit: bytes
   int ufm_size_used = (ufm_size * LATTICE_COL_SIZE) / 8; // unit: bytes
@@ -576,7 +577,7 @@ LCMXO2Family_JED_File_Parser(FILE *jed_fd, CPLDInfo *dev_info, int cf_size, int 
 static int
 LCMXO2Family_cpld_verify(CPLDInfo *dev_info)
 {
-  int i;
+  unsigned int i;
   int result;
   int current_addr = 0;
   unsigned int buff[4] = {0};
@@ -736,7 +737,7 @@ LCMXO2Family_cpld_Check_ID()
 {
   unsigned int dr_data[4] = {0};
   int ret = -1;
-  int i;
+  unsigned int i;
 
   //RUNTEST IDLE
   ast_jtag_run_test_idle(1, JTAG_STATE_TLRESET, 3);
@@ -990,7 +991,8 @@ LCMXO2Family_cpld_update(FILE *jed_fd, char* key, char is_signed)
 #ifdef CPLD_DEBUG
   printf("[%s]\n",__func__);
 #endif
-
+  UNUSED(key);
+  UNUSED(is_signed);
   ret = LCMXO2Family_cpld_Check_ID();
   if ( ret < 0 )
   {
@@ -1080,6 +1082,8 @@ error_exit:
 
 static int cpld_dev_open(cpld_intf_t intf, uint8_t id, void *attr)
 {
+  UNUSED(id);
+  UNUSED(attr);
   if (intf == INTF_JTAG) {
     ast_jtag_set_mode(JTAG_XFER_HW_MODE);
     return ast_jtag_open();
@@ -1149,9 +1153,9 @@ void jed_file_parse_header(FILE *jed_fd)
 
 unsigned int jed_file_parser(FILE *jed_fd, unsigned int len, unsigned int *dr_data)
 {
-	int i = 0;
+	unsigned int i = 0;
 	unsigned char input_char, input_bit;
-	int sdr_array = 0, data_bit = 0, bit_cnt = 0;
+	unsigned int sdr_array = 0, data_bit = 0, bit_cnt = 0;
 
 	//Jed row
 	for(i = 0; i < len; i++) {
